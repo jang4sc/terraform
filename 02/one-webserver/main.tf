@@ -23,8 +23,8 @@ resource "aws_security_group" "instance" {
   name = var.security_group_name
 
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = var.server_port
+    to_port     = var.server_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -34,13 +34,4 @@ resource "aws_security_group" "instance" {
   }
 }
 
-variable "security_group_name" {
-    description = "security group name"
-    type = string
-    default = "terraform-example-instance"
-}
 
-output "public_ip" {
-    description = "ec2 instance public ip"
-    value = aws_instance.example.public_ip
-}
