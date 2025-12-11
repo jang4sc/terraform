@@ -1,5 +1,12 @@
+###################################
+# 1. terraform/provider
+# 2. EC2 Instance 생성(user_data(WEB:8080))
+# * 1) SG(8080)
+# * 2) EC2 생성
+###################################
+
 #
-# provider
+# 1. terraform/provider
 #
 terraform {
   required_providers {
@@ -15,25 +22,10 @@ provider "aws" {
 }
 
 #
-# resource
+# 2. resource - EC2 인스턴스 생성
 #
-resource "aws_instance" "myinstance" {
-  ami                    = "ami-0f5fcdfbd140e4ab7"
-  instance_type          = "t3.micro"
-  vpc_security_group_ids = [aws_security_group.allow_8080.id]
 
-  user_data_replace_on_change = true
-  user_data                   = <<-EOF
-        #!/bin/bash
-        echo "Hello World" > index.html
-        nohup busybox httpd -f -p 8080 &
-        EOF
-
-  tags = {
-    Name = "My-First-Instance"
-  }
-}
-
+# 1) SG 생성
 resource "aws_security_group" "allow_8080" {
   name        = "allow_8080"
   description = "Allow TLS inbound traffic and all outbound traffic"
@@ -56,3 +48,22 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
 }
+
+# 2) EC2 생성
+resource "aws_instance" "myinstance" {
+  ami                    = "ami-0f5fcdfbd140e4ab7"
+  instance_type          = "t3.micro"
+  vpc_security_group_ids = [aws_security_group.allow_8080.id]
+
+  user_data_replace_on_change = true
+  user_data                   = <<-EOF
+        #!/bin/bash
+        echo "Hello World" > index.html
+        nohup busybox httpd -f -p 8080 &
+        EOF
+
+  tags = {
+    Name = "My-First-Instance"
+  }
+}
+
