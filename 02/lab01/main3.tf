@@ -129,7 +129,7 @@ resource "aws_vpc_security_group_egress_rule" "mySG2_all" {
 #   - user_data가 변경 되었을 때 EC2를 재 생성하도록 설정
 
 # 
-resource "aws_instance" "myEC2-2" {
+resource "aws_instance" "myPriEC2" {
   ami                    = "ami-00e428798e77d38d9"
   instance_type          = "t3.micro"
   vpc_security_group_ids = [aws_security_group.mySG2.id]
@@ -145,6 +145,6 @@ resource "aws_instance" "myEC2-2" {
         EOF
 
   tags = {
-    Name = "myEC2-2"
+    Name = "myPriEC2"
   }
 }

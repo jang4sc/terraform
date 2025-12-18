@@ -7,7 +7,7 @@
 # 1. SG 생성
 ######################################
 # SG 생성
-# * ingress: 80/tcp, 443/tcp
+# * ingress: 22/tcp, 80/tcp, 443/tcp
 # * egress: 전체 허용
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
 resource "aws_security_group" "mySG" {
@@ -69,7 +69,7 @@ resource "aws_key_pair" "mykeypair" {
 }
 
 # 2) EC2 생성
-resource "aws_instance" "myEC2" {
+resource "aws_instance" "myPubEC2" {
   ami                    = "ami-00e428798e77d38d9"
   instance_type          = "t3.micro"
   vpc_security_group_ids = [aws_security_group.mySG.id]
@@ -85,6 +85,6 @@ resource "aws_instance" "myEC2" {
         EOF
 
   tags = {
-    Name = "myEC2"
+    Name = "myPubEC2"
   }
 }

@@ -57,11 +57,11 @@ resource "aws_subnet" "myPubSN" {
 }
 
 #########################
-# 5. PubSN-RT 생성 및 연결
+# 5. PubRT 생성 및 연결
 #########################
 # PubSN-RT 생성
 # * default route 
-# * PubSN <- 연결 -> PubSN-RT
+# * PubSN <- 연결 -> PubRT
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table
 resource "aws_route_table" "myPubRT" {
   vpc_id = aws_vpc.myVPC.id
